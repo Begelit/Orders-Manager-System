@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+        table
+        {
+          //border-spacing: 2 2px ;
+          //font-weight: bold;
+          //border: 3px;
+        }
+       th { 
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+        border: 3px solid #D2B8B4; 
+        background: #A2C6CC;
+        color: #4D5A65;
+       }
+        td{
+        background-color: #C7DCDF;
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+       }
+       body{
+        background: linear-gradient(-45deg,#FC9C8F,#82B6BF ); //#82B6BF;
+       }
+       .change{
+         padding: 20px;
+         border: 2px solid #C7DCDF;
+       }
+       //.subCh{padding-top:15px;padding-bottom:15px; border: 0px; background-color:#4D5A65}
+       .subChStyle
+       {
+        padding-right: 250px;
+        padding-top:15px;padding-bottom:15px; border: 0px; background-color:#AACDD1;
+        font-size: 18px;
+        color:#DFEFF0;
+       }
+       .subChStyle:hover{
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .subChStyle:active
+       {
+         color: #D2B8B4;
+       }
+       .nameChAccess
+       {
+         padding:15px;
+         font-size: 25px;
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+
+       
+    </style>
+  </head>
+  <body>
+    <? users ?>
+    <? orders ?>
+    <? history ?>
+    <? historyExChange ?>
+    <form action = "<?= url ?>" method = "GET">
+    <input type = "hidden" name="pageApp" value = "changeAccess">
+       <table align = "left" >
+         <tr><td class="nameChAccess" colspan="7">Изменение уровня доступа</td></tr>
+          <tr>
+            <th>№</th>
+            <th>Gmail adress</th>
+            <th>User status</th>
+            <th>Registration date</th>
+            <th>Сustomer</th>
+            <th>Manager</th>
+            <th>Executer</th>
+          </tr>
+          <? for(i = 1; i <= users.sumusers; i++) { ?>
+          <tr>
+            <td><?= i ?></td>
+            <td><?= users[i].gmail ?></td>
+            <td><?= users[i].userProcessingStatus ?></td>
+            <td><?= users[i].regDate ?></td>
+            <? if((users[i].gmail != Session.getActiveUser().getEmail())&&((users[i].userProcessingStatus != "manager")||(users["myUserStatus"]=="gen-manager"))&&(users[i].userProcessingStatus != "gen-manager")) { ?>
+            <td><input type = "radio" onMouseDown="this.isChecked=this.checked;"onClick="this.checked=!this.isChecked;" name = "<?=  i ?>" value = "<?= users[i].gmail + "Custom" ?>" ></td>
+            <td><input type = "radio" onMouseDown="this.isChecked=this.checked;"onClick="this.checked=!this.isChecked;" name = "<?=  i ?>" value = "<?= users[i].gmail + "Manage" ?>"></td>
+            <td><input type = "radio" onMouseDown="this.isChecked=this.checked;"onClick="this.checked=!this.isChecked;" name = "<?=  i ?>" value = "<?= users[i].gmail + "Execut" ?>"></td>
+            <? } else { ?>
+            <td></td>
+            <td></td>
+            <td></td>
+            <? } ?>
+          </tr>  
+          <? } ?>
+          <input type = "hidden" name = "sumusers" value = "<?= i-1 ?>">
+          <tr><td class="subCh" colspan="4"><input type = "submit" class="subChStyle" name = "ChangeAccessSub" value = "Change access" ></td></tr>
+      </table>
+    </form>
+    <form action = "<?= url ?>" method = "GET">
+    <input type = "hidden" name = "pageApp" value = "changeExec">
+    <table align = "left">
+      <? var sum = 0; for(i = 1; i <= users.sumusers; i++){if(users[i].userProcessingStatus == "executer") sum++;} ?>
+    <tr><td class="nameChAccess" colspan="9">Список заявок</td><td class="nameChAccess" colspan="<?= sum ?>">Перенаправление заявок</td></tr>
+     <tr>
+       <th>№</th>
+       <th>Gmail address</th>
+       <th>Order name</th>
+       <th>Description</th>
+       <th>Status</th>
+       <th>Executer</th>
+       <th>Date of creation</th>
+       <th>Date of processing</th>
+       <th>Date of ending</th>
+       <? for(i = 1; i <= users.sumusers; i++) {
+            if (users[i].userProcessingStatus == "executer") { ?>
+            <th><?= users[i].gmail ?></th>
+            <? } ?>
+       <? } ?>
+     </tr>
+     <? for(i = 1; i <= orders.sumOrders; i++) { ?>
+     <tr>
+       <td><?= i ?></td>
+       <td><?= orders[i].userGmail ?></td>
+       <td><?= orders[i].orderName ?></td>
+       <td><?= orders[i].description ?></td>
+       <td><?= orders[i].orderStatus ?></td>
+       <td><?= orders[i].executer ?></td>
+       <td><?= orders[i].createDate ?></td>
+       <td><?= orders[i].processDate ?></td>
+       <td text-align="left"><?= orders[i].endingDate ?></td>
+       <? for(n = 1; n <= users.sumusers; n++) {
+            if ((users[n].userProcessingStatus == "executer")&&(orders[i].orderStatus != "completed")) { ?>
+            <td><input type="radio"  onMouseDown="this.isChecked=this.checked;" onClick="this.checked=!this.isChecked;" name = "<?= i ?>" value = "<?= n ?>"></td>
+            <? } ?>
+       <? } ?>
+     </tr>  
+     <? } ?>
+     <tr><td class="subCh" colspan="4"><input type = "submit" class="subChStyle" name = "ChangeExecuter" value = "Change executer" ></td></tr>
+   </table>
+   </form>
+    <? if(users["myUserStatus"]=="gen-manager"){ ?>
+   <table align = "left">
+     <tr><td class="nameChAccess" colspan="6">История изменений уровней доступа</td></tr>
+     <tr>
+       <th>№</th>
+       <th>Manager</th>
+       <th>User</th>
+       <th>Past role</th>
+       <th>New role</th>
+       <th>Date</th>
+     </tr>
+     <? for(i=1; i<=history.sum-1; i++){ ?>
+      <tr>
+       <td><?= history[i].num ?></td>
+       <td><?= history[i].manager ?></td>
+       <td><?= history[i].user ?></td>
+       <td><?= history[i].pastRole ?></td>
+       <td><?= history[i].newRole ?></td>
+       <td><?= history[i].date ?></td>
+     </tr>
+     <? } ?>
+   </table>
+   <table>
+    <tr><td class="nameChAccess" colspan="6">История перенаправления заявок</td></tr>
+    <tr>
+        <th>№</th>
+        <th>FK Orders</th>
+        <th>Past Executer Name</th>
+        <th>New Executer Name</th>
+        <th>Manager</th>
+        <th>Date</th>
+    </tr>
+    <? for(n=1; n<=historyExChange.sum;n++) {?>
+    <tr>
+        <td><?= historyExChange[n].numHistoryKey ?></td>
+        <td><?= historyExChange[n].fkApp ?></td>
+        <td><?= historyExChange[n].pastExName ?></td>
+        <td><?= historyExChange[n].newExName ?></td>
+        <td><?= historyExChange[n].manager ?></td>
+        <td><?= historyExChange[n].date ?></td>
+    </tr>
+     <? } ?>
+   </table>
+   <? } ?>
+  </body>
+</html>
+
+

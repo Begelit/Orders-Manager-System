@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+       th { 
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+        border: 3px solid #D2B8B4; 
+        background: #A2C6CC;
+        color: #4D5A65;
+       }
+        td{
+        background-color: #C7DCDF;
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+       }
+       body{
+        background: linear-gradient(-45deg,#FC9C8F,#82B6BF ); //#82B6BF;
+       }
+        .nameChAccess
+       {
+         padding:15px;
+         font-size: 25px;
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+        .subChStyle
+       {
+        padding-right: 250px;
+        padding-top:15px;padding-bottom:15px; border: 0px; background-color:#AACDD1;
+        font-size: 18px;
+        color:#DFEFF0;
+       }
+       .subChStyle:hover{
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .subChStyle:active
+       {
+         color: #D2B8B4;
+       }
+    </style>
+  </head>
+  <body>
+    <? orders ?>
+      <table >
+      <tr><td class="nameChAccess" colspan="11">Текущия заявки</td></tr>
+      <tr>
+        <th>№</th>
+        <th>FK Order Key</th>
+        <th>Gmail address</th>
+        <th>Order name</th>
+        <th>Description</th>
+        <th>Status</th>
+        <th>Date of creation</th>
+        <th>Date of processing</th>
+        <th>Deadline</th>
+        <th>Date of complete</th>
+        <th>Action</th>
+      </tr>
+      <? for(i = 1; i <= orders.sumOrders; i++ ){ ?>
+      <tr>
+        <td><?= i ?></td>
+        <td><?= orders[i].orderNum ?></td>
+        <td><?= orders[i].userGmail ?></td>
+        <td><?= orders[i].orderName ?></td>
+        <td><?= orders[i].description ?></td>
+        <td><?= orders[i].orderStatus ?></td>
+        <td><?= orders[i].createDate ?></td>
+        <td><?= orders[i].processDate ?></td>
+        <td><?= orders[i].endingDate ?></td>
+        <td><?= orders[i].completeDate ?></td>
+        <form action = "<?= url ?>" method = "GET">
+          <input type = "hidden" name="pageApp" value = "changeOrderStatus">
+          <? if(orders[i].orderStatus == "not confirmed") { ?>
+          <td><input type = "submit" class="subChStyle" name = "<?= orders[i].orderNum ?>" value = "confirm"></td>
+          <? } else if (orders[i].orderStatus == "confirmed") { ?>
+          <td><input type = "submit" class="subChStyle" name = "<?= orders[i].orderNum ?>" value = "complete"></td>
+          <? } else if (orders[i].orderStatus == "completed") { ?>
+          <td></td>
+          <? } ?>
+        </form>
+      </tr>
+      <? } ?>
+      </table>
+  </body>
+</html>
+
+

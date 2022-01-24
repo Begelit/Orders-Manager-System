@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      .data{
+        padding: 20px;
+      }
+      .textb{
+        padding:15px;
+        padding-right: 300px;
+        background-color: #C7DCDF;
+      }
+      .texta{
+        padding:15px;
+        padding-right: 100px;
+        background-color: #C7DCDF;
+      }
+      .nameForm
+      {
+         padding:35px;
+         //padding-left: 300px;
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .createName{
+         font-size: 45px;
+       }
+        body{
+         background: linear-gradient(-45deg,#FC9C8F,#82B6BF ); //#82B6BF;
+       }
+       p{
+         padding:15px;
+         font-size: 25px;
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .backgr{
+         padding: 5px;
+         font-size: 16px;
+         background-color: #C7DCDF;
+       }
+       .subChStyle
+       {
+        padding-right: 250px;
+        padding-top:15px;padding-bottom:15px; border: 0px; background-color:#AACDD1;
+        font-size: 18px;
+        color:#DFEFF0;
+       }
+       .subChStyle:hover{
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .subChStyle:active
+       {
+         color: #D2B8B4;
+       }
+    </style>
+  </head>
+  <body>
+    <form action = "<?= url ?>" method = "GET">
+      <div class="nameForm" ><p class="createName">Создание заявки</p></div>
+      <div class = "data"><p>Order name</p><input type = "text" class="texta" name = "appName"></div>
+      <div class = "data"><p>Description</p><input type = "text" class="textb" name = "shortDescript"></div>
+      <div class = "data"><p>Date</p><input type = "date" class="backgr" name = "date"></div>
+      <div><input type = "hidden"  name = "pageApp" value = "returnUserPage"></div>
+      <div><input type = "submit" class ="subChStyle" name = "sub" value = "create"></div>
+    </form>
+  </body>
+</html>
+
+

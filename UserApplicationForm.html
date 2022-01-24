@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+        <style>
+        h1{color: #9370D8;}
+       th { 
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+        border: 3px solid #D2B8B4; 
+        background: #A2C6CC;
+        color: #4D5A65;
+       }
+       th { 
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+        border: 3px solid #D2B8B4; 
+        background: #A2C6CC;
+        color: #4D5A65;
+       }
+        td{
+        background-color: #C7DCDF;
+        padding: 5px; /* Поля вокруг содержимого ячеек */
+       }
+       body{
+        background: linear-gradient(-45deg,#FC9C8F,#82B6BF ); //#82B6BF;
+       }
+        .nameChAccess
+       {
+         padding:15px;
+         font-size: 25px;
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+        .subChStyle
+       {
+        padding-right: 250px;
+        padding-top:15px;padding-bottom:15px; border: 0px; background-color:#AACDD1;
+        font-size: 18px;
+        color:#DFEFF0;
+       }
+       .subChStyle:hover{
+         background-color: #89A5A8;
+         color: #FFFFFF;
+       }
+       .subChStyle:active
+       {
+         color: #D2B8B4;
+       }
+    </style>
+    </style>
+  </head>
+  <body>
+    <? orders ?>
+    <div id="header">
+      <h1>Здравствуй, <?= Session.getActiveUser().getEmail() ?>!</h1>
+    </div>
+    <form id="createOrder" action = "<?= url ?>" method = "GET"></form>
+       <table align = "center">
+      <tr><td class="nameChAccess" colspan="8">Текущие заявки</td></tr>
+     <tr>
+       <th>№</th>
+       <th>Order name</th>
+       <th>Description</th>
+       <th>Status</th>
+       <th>Executer</th>
+       <th>Date of creation</th>
+       <th>Date of processing</th>
+       <th>Date of ending</th>
+     </tr>
+     <? for(i = 1; i <= orders.sumorders; i++) { ?>
+     <tr>
+       <td><?= i ?></td>
+       <td><?= orders[i].orderName ?></td>
+       <td><?= orders[i].description ?></td>
+       <td><?= orders[i].orderStatus ?></td>
+       <td><?= orders[i].executer ?></td>
+       <td><?= orders[i].createDate ?></td>
+       <td><?= orders[i].processDate ?></td>
+       <td text-align="left"><?= orders[i].endingDate ?></td> 
+     </tr> 
+     <? } ?>
+      <tr><td colspan="3"><input type = "submit" class="subChStyle" name = "subCreate" value = "Create" form="createOrder"></td></tr> 
+
+   </table>
+      <input type = "hidden" name="pageApp" value = "createnewapp" form="createOrder">
+  </body>
+</html>
